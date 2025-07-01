@@ -1,0 +1,49 @@
+name: Auto Merge PRs by trusted user
+
+on:
+  pull_request:
+    types: [labeled, synchronize, opened, reopened]
+  check_suite:
+    types: [completed]
+  status:
+
+jobs:
+  auto-merge:
+    if: github.event_name == 'status' || github.event_name == 'check_suite' || github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Fetch PR info
+        uses: octokit/request-action@v2.x
+        id: pr
+        with:
+          route: GET /repos/${{ github.repository }}/pulls?head=${{ github.repository_owner }}:${{ github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract PR number
+        id: extract
+        run: |
+          PR_NUMBER=$(jq '.[0].number' <<< '${{ steps.pr.outputs.data }}')
+          echo "pr_number=$PR_NUMBER" >> $GITHUB_OUTPUT
+
+      - name: Get PR details
+        id: pr_details
+        uses: octokit/request-action@v2.x
+        with:
+          route: GET /repos/${{ github.repository }}/pulls/${{ steps.extract.outputs.pr_number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Merge PR if from trusted user and all checks passed
+        if: |
+          steps.pr_details.outputs.data != '' &&
+          fromJSON(steps.pr_details.outputs.data).user.login == 'tuliofaria' &&
+          fromJSON(steps.pr_details.outputs.data).mergeable_state == 'clean'
+        run: |
+          gh pr merge ${{ steps.extract.outputs.pr_number }} --squash --admin --delete-branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
