@@ -1,9 +1,9 @@
 {
   "product1": {
-    "name": "Testing again",
+    "name": "new value",
     "video": {
       "description": "description",
-      "id": "video id"
+      "id": "another video id"
     }
   },
   "product2": {
