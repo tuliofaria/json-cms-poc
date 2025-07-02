@@ -1,8 +1,16 @@
 {
   "product1": {
-    "name": "Testing again"
+    "name": "Testing again",
+    "video": {
+      "description": "description",
+      "id": "video id"
+    }
   },
   "product2": {
-    "name": "Product name 2"
+    "name": "Product name 2",
+    "video": {
+      "description": "description",
+      "id": "video id"
+    }
   }
 }
