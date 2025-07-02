@@ -1,0 +1,22 @@
+{
+  "name": "json-cms-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@octokit/rest": "^22.0.0",
+    "dotenv": "^17.0.1",
+    "js-base64": "^3.7.7",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.8"
+  }
+}
