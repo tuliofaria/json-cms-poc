@@ -1,0 +1,36 @@
+name: Build node.js
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+
+env:
+  NODE_VERSION: '23.7'               
+
+jobs:
+  build-assets:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dir: ['./']
+    
+    defaults:
+      run:
+        working-directory: ${{ matrix.dir }}
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    # Setup Node
+    - name: Use Node.js ${{ env.NODE_VERSION }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        
+    # Run npm build
+    - name: Build ${{ matrix.dir }}
+      run: |
+        echo "tested"
