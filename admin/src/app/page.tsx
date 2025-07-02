@@ -1,6 +1,7 @@
 import { getFileContents } from "@/lib/git"
 import { Changes } from "./changes"
 
+export const dynamic = 'force-dynamic'
 
 const path = 'content/en.json'
 const ref = 'refs/heads/main'
