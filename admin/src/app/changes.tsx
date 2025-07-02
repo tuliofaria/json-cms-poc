@@ -31,7 +31,7 @@ export const Changes = ({ fields, ids }: Props) => {
 
     const addToBatch = () => {
 
-        if (productId === '' || selectedField === '') {
+        if (productId === '' || selectedField === '' || value === '') {
             return
         }
 
